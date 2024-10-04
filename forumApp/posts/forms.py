@@ -6,9 +6,6 @@ from django.core.exceptions import ValidationError
 
 
 
-# class PersonForm(forms.Form):
-#     person_name = forms.CharField(max_length=10, )
-#     age = forms.IntegerField()
 class PostForm(forms.Form):
     title = forms.CharField(
         max_length=100,

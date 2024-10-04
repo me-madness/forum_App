@@ -28,3 +28,5 @@ class Post(models.Model):
         choices=LanguageChoice.choices,
         default=LanguageChoice.OTHER,
     )
+
+    
