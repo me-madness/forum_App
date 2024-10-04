@@ -3,24 +3,15 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from forumApp.posts.forms import PersonForm
+
 
 def index(request):
 
+    form = PersonForm(request.POST or None)
+
     context = {
-        "current_time": datetime.now(),
-        "person": {
-            "age": 20,
-            "height": 190,
-        },
-        "ids": ["62348764", "fwhj827634", "42y3tyr"],
-        "some_text": "Hello",
-        "users": [
-            "pesho",
-            "ivan",
-            "stamat",
-            "saria",
-            "magdalena"
-        ]
+        "my_form": form,
     }
 
     return render(request, 'base.html', context)
@@ -30,21 +21,21 @@ def dashboard(request):
     context = {
         "posts": [
             {
-                "title": "How to create django project?",
-                "author": "Diyan Kalaydzhiev",
-                "content": "I **really** don't how to create a project",
+                "title": "Django project?",
+                "author": "Rangel Petrov",
+                "content": "How to create a Django project",
                 "created_at": datetime.now(),
             },
             {
-                "title": "How to create django project 1?",
-                "author": "",
-                "content": "### I really don't know how to create a project",
+                "title": "React project?",
+                "author": "Boris Petrov",
+                "content": "How to create a React project",
                 "created_at": datetime.now(),
             },
             {
-                "title": "How to create django project 2?",
-                "author": "Diyan Kalaydzhiev",
-                "content": "",
+                "title": "Angular project?",
+                "author": "Samuil Petrov",
+                "content": "How to create a Angular project",
                 "created_at": datetime.now(),
             },
         ]
