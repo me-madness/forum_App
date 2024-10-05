@@ -5,29 +5,6 @@ from forumApp.posts.models import Post
 from django.core.exceptions import ValidationError
 
 
-
-class PostForm(forms.Form):
-    title = forms.CharField(
-        max_length=100,
-    )
-
-    content = forms.CharField(
-        widget=forms.Textarea,
-    )
-
-    author = forms.CharField(
-        max_length=30,
-    )
-
-    created_at = forms.DateTimeField()
-
-    languages = forms.ChoiceField(
-        choices=LanguageChoice.choices
-    )
-
-
-
-
 class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -60,3 +37,23 @@ class SearchForm(forms.Form):
             }
         )
     )
+
+
+# class PostForm(forms.Form):
+#     title = forms.CharField(
+#         max_length=100,
+#     )
+#
+#     content = forms.CharField(
+#         widget=forms.Textarea,
+#     )
+#
+#     author = forms.CharField(
+#         max_length=30,
+#     )
+#
+#     created_at = forms.DateTimeField()
+#
+#     languages = forms.ChoiceField(
+#         choices=LanguageChoice.choices
+#     )
