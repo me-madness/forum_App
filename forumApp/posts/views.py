@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm
 from forumApp.posts.models import Post
 
+from forumApp.posts.forms import PostEditForm
+
 
 def index(request):
     context = {
@@ -48,8 +50,21 @@ def add_post(request):
 
 
 def edit_post(request, pk: int):
-    return HttpResponse()  # TODO: fix it
+    post = Post.objects.get(pk=pk)
 
+    if request.method == 'POST':
+        form = PostEditForm(request.POST, instance=post)
+
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = PostEditForm(instance=post)
+
+    context = {
+        "form": form,
+        "post": post,
+    }
 
 def details_page(request, pk: int):
     post = Post.objects.get(pk=pk)
@@ -74,4 +89,4 @@ def delete_post(request, pk: int):
         "post": post,
     }
 
-    return render(request, 'posts/delete-template.html', context)
+    return render(request, 'posts/delete-post.html', context)
