@@ -31,7 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 MY_APPS = [
+    # 'cryspy_forms',
+    # 'cryspy_bootsrap4',
     'forumApp.posts',
+    'forumApp.accounts',
+
 ]
 
 
