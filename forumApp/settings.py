@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 MY_APPS = [
-    # 'cryspy_forms',
-    # 'cryspy_bootsrap4',
+    'cryspy_forms',
+    'cryspy_bootsrap4',
+
     'forumApp.posts',
     'forumApp.accounts',
 
@@ -148,3 +149,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+LOGIN_REDIRECT_URL = reverse_lazy('index')
+LOGOUT_REDIRECT_URL = reverse_lazy('index')

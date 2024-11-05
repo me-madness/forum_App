@@ -10,7 +10,7 @@ from forumApp.posts.models import Post, Comment
 class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = "__all__"
+        exclude = ['approved']
 
         error_messages = {
             'title': {
@@ -21,7 +21,6 @@ class PostBaseForm(forms.ModelForm):
                 'required': 'Please enter an author'
             },
         }
-
 
     def clean_author(self):
         author = self.cleaned_data.get('author')
@@ -51,7 +50,6 @@ class PostBaseForm(forms.ModelForm):
             post.save()
 
         return post
-
 
 
 class PostCreateForm(PostBaseForm):
@@ -118,5 +116,6 @@ class CommentForm(forms.ModelForm):
             'placeholder': 'Add message...',
             'rows': 1,
         })
+
 
 CommentFormSet = formset_factory(CommentForm, extra=1)

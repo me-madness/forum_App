@@ -1,6 +1,6 @@
 # Register an instance of Library to register custom template tags
 from django import template
-from django.template.base import Node
+from django.template import Node
 
 register = template.Library()
 

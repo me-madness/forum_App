@@ -1,5 +1,7 @@
 from datetime import datetime, time
 
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.http import HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import render, redirect
@@ -64,14 +66,26 @@ class DashboardView(ListView, FormView):
     def get_queryset(self):
         queryset = self.model.objects.all()
 
+        if 'posts.can_approve_posts' not in self.request.user.get_group_permissions() or not self.request.user.has_perm(
+                'posts.can_approve_posts'):
+            queryset = queryset.filter(approved=True)
+
         if 'query' in self.request.GET:
             query = self.request.GET.get('query')
-            queryset = self.queryset.filter(title__icontains=query)
+            queryset = queryset.filter(title__icontains=query)
 
         return queryset
 
 
-class AddPostView(CreateView):
+def approve_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.approved = True
+    post.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostCreateForm
     template_name = 'posts/add-post.html'
@@ -88,7 +102,6 @@ class EditPostView(UpdateView):
             return modelform_factory(Post, fields=('title', 'content', 'author', 'languages'))
         else:
             return modelform_factory(Post, fields=('content',))
-
 
 
 class PostDetailView(DetailView):
@@ -118,6 +131,7 @@ class PostDetailView(DetailView):
         context['formset'] = formset
 
         return self.render_to_response(context)
+
 
 #
 # def details_page(request, pk: int):
